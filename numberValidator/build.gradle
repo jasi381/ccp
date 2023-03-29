@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -41,4 +42,19 @@ dependencies {
 
     //lib for phone number validation
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.56'
+}
+
+afterEvaluate{
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId 'com.github.jasi381'
+                artifactId 'mobileNumbervalidator'
+                version '1.0.0'
+
+            }
+        }
+    }
 }

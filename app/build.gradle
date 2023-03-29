@@ -47,7 +47,5 @@ dependencies {
 
     //lib for country code picker only
     implementation 'com.hbb20:ccp:2.7.0'
-
-
     implementation project(':numberValidator')
 }

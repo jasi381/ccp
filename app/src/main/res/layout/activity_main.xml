@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:background="#ececec"
+    android:theme="@style/Theme.CCCp"
     android:layout_height="match_parent">
 
     <TextView
@@ -22,71 +23,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/lay1"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/numberLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:layout_margin="5dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/demo"
-        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title">
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/ccp"
-            app:ccpDialog_background="@drawable/dialog_back"
             android:layout_width="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:layout_height="wrap_content"
-           android:gravity="center"
+            android:layout_height="48dp"
+            android:gravity="center"
+            app:ccp_autoDetectCountry="true"
+            app:ccpDialog_allowSearch="false"
+            app:ccpDialog_background="@drawable/dialog_back"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-    </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/numberLay"
-        android:layout_width="0dp"
-        app:errorEnabled="false"
-        app:boxStrokeColor="@color/black"
-        app:errorIconDrawable="@null"
-        android:layout_margin="5dp"
-        android:hint="Number"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/black"
-        android:theme="@style/Widget.InputLayout"
-        app:startIconTint="@color/black"
-        app:startIconDrawable="@drawable/baseline_phone_24"
-        app:layout_constraintBottom_toBottomOf="@+id/lay1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lay1"
-        app:layout_constraintTop_toTopOf="@+id/lay1">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:drawablePadding="-15dp"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@color/white"
+            android:paddingEnd="10dp"
+            android:hint="Mobile Number"
+            android:imeOptions="actionDone"
+            android:inputType="number"
             android:maxLines="1"
+            android:layout_marginStart="-10dp"
             android:textColor="@color/black"
-            android:textSize="16sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:textColorHint="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ccp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mobile Number is Required"
+        android:textColor="@color/error_text"
+        android:textSize="16sp"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="@+id/numberLayout"
+        app:layout_constraintTop_toBottomOf="@+id/numberLayout"
+        app:drawableStartCompat="@drawable/warning" />
 
     <Button
         android:id="@+id/validate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Validate"
-        android:backgroundTint="@color/purple_200"
-        android:textColor="@color/black"
         android:layout_marginTop="25dp"
+        android:backgroundTint="@color/purple_200"
+        android:text="Validate"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberLay" />
+        app:layout_constraintTop_toBottomOf="@+id/error" />
 
     <TextView
         android:id="@+id/formattedNo"

@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="status">#ffa900</color>
-    <color name="error_text">#FF0000</color>
+    <color name="error_text">#db0000</color>
     <color name="dialogBack">#808080</color>
 
 </resources>

@@ -23,8 +23,20 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.ccp.apply {
-            setDialogBackgroundColor(getColor(R.color.dialogBack))
             setDialogTextColor(getColor(R.color.black))
+            setExcludedCountries(
+                "AF,AX,AL,DJ,DZ,XK,BL,MF,AS,AD,AO,AI,AQ,AG,AR,AM,AW,AU,AT,AZ,BS,BH,BD,BB,BY,BE,BZ,BJ" +
+                        ",BM,BT,BO,BA,BW,BV,IO,BN,BG,BF,BI,KH,CM,CA,CV,KY,CF,TD,CL,CN,CX,CC,CO,KM,CG," +
+                        "CD,CK,CR,CI,HR,CU,CW,CY,CZ,DK,DM,DO,EC,EG,SV,GQ,ER,EE,ET,FK,FO,FJ,FI,FR,GF," +
+                        "PF,TF,GA,GM,GE,DE,GH,GI,GR,GL,GD,GP,GU,GT,GG,GN,GW,GY,HT,HM,VA,HN,HK,HU,IS," +
+                        "ID,IR,IQ,IE,IM,IL,IT,JM,JE,JO,KZ,KI,KP,KR,KW,KG,LA,LV,LB,LS,LR,LY,LI,LT,LU," +
+                        "MO,MK,MG,MW,MY,MV,ML,MT,MH,MQ,MR,MU,YT,MX,FM,MD,MC,MN,ME,MS,MA,MZ,MM,NA,NR," +
+                        "NP,NL,NC,NZ,NI,NE,NG,NU,NF,MP,NO,OM,PK,PW,PS,PA,PG,PY,PE,PH,PN,PL,PT,PR,QA," +
+                        "RE,RO,RU,RW,SH,KN,LC,PM,VC,WS,SM,ST,SA,SN,RS,SC,SL,SG,SX,SK,SI,SB,SO,ZA,GS," +
+                        "SS,ES,LK,SD,SR,SJ,SZ,SE,CH,SY,TW,TJ,TH,TL,TG,TK,TO,TT,TN,TR,TM,TC,TV,UG,UA," +
+                        "AE,GB,US,UM,UY,UZ,VU,VE,VN,VG,VI,WF,EH,YE,ZM,ZW"
+            )
+
         }
 
 
@@ -33,13 +45,8 @@ class MainActivity : AppCompatActivity() {
             val number: String = binding.number.text.toString()
 
             if (number.isEmpty()){
-
-                binding.numberLay.apply {
-                    boxStrokeColor = getColor(R.color.error_text)
-                    hintTextColor = getColorStateList(R.color.error_text)
-                    error = "Mobile number is required"
-                    startIconDrawable?.setTint(getColor(R.color.error_text))
-                }
+                binding.error.text = "Mobile number is required"
+                binding.error.visibility = android.view.View.VISIBLE
             }
             else {
                 //listener to get the country code when the country is changed
@@ -49,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                     binding.formattedNo.text = ""
                     binding.validStatus.text = ""
                     binding.number.setText("")
-                    binding.numberLay.startIconDrawable?.setTint(getColor(R.color.purple_700))
                 }
                 val tv =  checkValidateNumber(code, number)
 
@@ -57,6 +63,13 @@ class MainActivity : AppCompatActivity() {
 
                 val formattedNumber = getFormattedNumber(code, number)
                 binding.validStatus.text = "Formatted number is: $formattedNumber"
+                if (!tv){
+                    binding.error.text = "Invalid number"
+                    binding.error.visibility = android.view.View.VISIBLE
+                }
+                else{
+                    binding.error.visibility = android.view.View.INVISIBLE
+                }
 
             }
         }
@@ -64,45 +77,23 @@ class MainActivity : AppCompatActivity() {
         //text watcher
         binding.number.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                binding.numberLay.apply {
-                    boxStrokeColor = getColor(R.color.purple_700)
-                    hintTextColor = getColorStateList(R.color.black)
-                    isErrorEnabled = false
-                    startIconDrawable?.setTint(getColor(R.color.purple_700))
-                }
+                binding.error.visibility = android.view.View.INVISIBLE
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 getFormattedNumber(binding.ccp.selectedCountryNameCode, s.toString())
 
-                binding.apply {
-                    numberLay.boxStrokeColor = getColor(R.color.purple_700)
-                    formattedNo.text = ""
-                    validStatus.text = ""
-                    numberLay.isErrorEnabled = false
-                    numberLay.hintTextColor = getColorStateList(R.color.black)
-                    numberLay.startIconDrawable?.setTint(getColor(R.color.purple_700))
-                }
+                binding.error.visibility = android.view.View.INVISIBLE
+                binding.formattedNo.text= ""
+                binding.validStatus.text = ""
+
             }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty()) {
-
-                    binding.apply {
-                        numberLay.boxStrokeColor = getColor(R.color.error_text)
-                        numberLay.hintTextColor = getColorStateList(R.color.error_text)
-                        numberLay.error = "Mobile number is required"
-                        //set icon tint as red
-                        numberLay.startIconDrawable?.setTint(getColor(R.color.error_text))
-                    }
-                }
-                else{
-                    binding.numberLay.apply {
-                        boxStrokeColor = getColor(R.color.purple_700)
-                        hintTextColor = getColorStateList(R.color.black)
-                        startIconDrawable?.setTint(getColor(R.color.purple_700))
-                    }
+                    binding.error.text = "Mobile number is required"
+                } else {
+                    binding.error.visibility = android.view.View.INVISIBLE
                 }
             }
         })

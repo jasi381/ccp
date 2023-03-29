@@ -47,6 +47,7 @@ dependencies {
 
     //lib for country code picker only
     implementation 'com.hbb20:ccp:2.7.0'
-    //lib for phone number validation
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.56'
+
+
+    implementation project(':numberValidator')
 }

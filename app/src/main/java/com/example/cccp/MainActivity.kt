@@ -5,7 +5,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cccp.databinding.ActivityMainBinding
-import com.google.i18n.phonenumbers.PhoneNumberUtil
+import com.example.mylibrary.checkValidateNumber
+import com.example.mylibrary.getFormattedNumber
+
+//import com.google.i18n.phonenumbers.PhoneNumberUtil
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             var code : String = binding.ccp.selectedCountryNameCode
             val number: String = binding.number.text.toString()
 
-            if (number.isNullOrEmpty()){
+            if (number.isEmpty()){
 
                 binding.numberLay.apply {
                     boxStrokeColor = getColor(R.color.error_text)
@@ -48,14 +51,20 @@ class MainActivity : AppCompatActivity() {
                     binding.number.setText("")
                     binding.numberLay.startIconDrawable?.setTint(getColor(R.color.purple_700))
                 }
-                checkNo(code, number)
+                val tv =  checkValidateNumber(code, number)
+
+                binding.formattedNo.text = "Is valid : $tv"
+
+                val formattedNumber = getFormattedNumber(code, number)
+                binding.validStatus.text = "Formatted number is: $formattedNumber"
+
             }
         }
 
         //text watcher
         binding.number.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                
+
                 binding.numberLay.apply {
                     boxStrokeColor = getColor(R.color.purple_700)
                     hintTextColor = getColorStateList(R.color.black)
@@ -65,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                checkNo(binding.ccp.selectedCountryNameCode, s.toString())
+                getFormattedNumber(binding.ccp.selectedCountryNameCode, s.toString())
 
                 binding.apply {
                     numberLay.boxStrokeColor = getColor(R.color.purple_700)
@@ -99,27 +108,4 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
-    //function to check if the number is valid or not
-    private fun checkNo(code: String,number:String) {
-        val phoneUtil = PhoneNumberUtil.getInstance()
-        try {
-            val numberProto = phoneUtil.parse(number, code)
-
-            val isValid = phoneUtil.isValidNumber(numberProto)
-
-            val formattedNumber =
-                phoneUtil.format(numberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
-
-
-            if (isValid) {
-                binding.validStatus.text = "Mobile Number is Valid"
-                binding.formattedNo.text = "Formatted No : $formattedNumber"
-            } else {
-                binding.validStatus.text = "Mobile number is Invalid"
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 }

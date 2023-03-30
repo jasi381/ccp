@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import com.example.cccp.databinding.ActivityMainBinding
 import com.example.mylibrary.checkValidateNumber
 import com.example.mylibrary.getFormattedNumber
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             if (number.isEmpty()){
                 binding.error.text = "Mobile number is required"
                 binding.error.visibility = android.view.View.VISIBLE
+                binding.numberLayout.background = AppCompatResources.getDrawable(this,R.drawable.demo2)
             }
             else {
                 //listener to get the country code when the country is changed
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                     binding.formattedNo.text = ""
                     binding.validStatus.text = ""
                     binding.number.setText("")
+                    binding.numberLayout.background = AppCompatResources.getDrawable(this,R.drawable.demo)
                 }
                 val tv =  checkValidateNumber(code, number)
 
@@ -66,9 +69,11 @@ class MainActivity : AppCompatActivity() {
                 if (!tv){
                     binding.error.text = "Invalid number"
                     binding.error.visibility = android.view.View.VISIBLE
+                    binding.numberLayout.background = AppCompatResources.getDrawable(this,R.drawable.demo2)
                 }
                 else{
                     binding.error.visibility = android.view.View.INVISIBLE
+                    binding.numberLayout.background = AppCompatResources.getDrawable(this,R.drawable.demo)
                 }
 
             }
@@ -78,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         binding.number.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 binding.error.visibility = android.view.View.INVISIBLE
+                binding.numberLayout.background = AppCompatResources.getDrawable(this@MainActivity,R.drawable.demo)
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -86,14 +92,17 @@ class MainActivity : AppCompatActivity() {
                 binding.error.visibility = android.view.View.INVISIBLE
                 binding.formattedNo.text= ""
                 binding.validStatus.text = ""
+                binding.numberLayout.background = AppCompatResources.getDrawable(this@MainActivity,R.drawable.demo)
 
             }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty()) {
                     binding.error.text = "Mobile number is required"
+                    binding.numberLayout.background = AppCompatResources.getDrawable(this@MainActivity,R.drawable.demo2)
                 } else {
                     binding.error.visibility = android.view.View.INVISIBLE
+                    binding.numberLayout.background = AppCompatResources.getDrawable(this@MainActivity,R.drawable.demo)
                 }
             }
         })
